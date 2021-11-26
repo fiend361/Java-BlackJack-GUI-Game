@@ -42,7 +42,7 @@ public class Game {
             players[i].addCard(drawCard());
             players[i].addCard(drawCard());
         }
-        scanner.close();
+        // scanner.close();
     }
 
     public void updateMaxScore() {
