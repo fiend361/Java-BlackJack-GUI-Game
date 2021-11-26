@@ -11,39 +11,45 @@ public class BlackJack {
         game.generateCards();
         game.setInformation();
 
-        Scanner scanner = new Scanner(System.in);
+        // Scanner scanner = new Scanner(System.in);
 
-        for (int i = 0; i < 3; i++) {
-            System.out.println("Player number " + toString(i + 1) + "'s turn. Please enter 'hit' or 'stand'");
-            while (true) {
-                if (scanner.next().equals("hit")) {
-                    game.players[i].addCard(game.drawCard());
-                    if (game.players[i].isBust()) {
-                        System.out.println("Bust!");
-                        break;
-                    } else if (game.players[i].isBlackjack()) {
-                        System.out.println("Blackjack!");
-                        break;
-                    }
-                } else if (scanner.next().equals("stand")) {
-                    game.stand();
-                    break;
-                } else {
-                    System.out.println("Please enter 'hit' or 'stand'");
-                }
-            }
-        }
+        // for (int i = 0; i < 3; i++) {
+        // System.out.println("Player number " + toString(i + 1) + "'s turn. Please
+        // enter 'hit' or 'stand'");
+        // while (true) {
+        // if (scanner.next().equals("hit")) {
+        // game.players[i].addCard(game.drawCard());
+        // if (game.players[i].isBust()) {
+        // System.out.println("Bust!");
+        // break;
+        // } else if (game.players[i].isBlackjack()) {
+        // System.out.println("Blackjack!");
+        // break;
+        // }
+        // } else if (scanner.next().equals("stand")) {
+        // game.stand();
+        // break;
+        // } else {
+        // System.out.println("Please enter 'hit' or 'stand'");
+        // }
+        // }
+        // }
 
-        // player 3 is the dealer
-        if (!player[3].isBust()) {
-            while (!player[3].isBust() && !player[3].isBlackjack()
-                    && max(players[0].getScore(),
-                            max(players[1].getScore(), players[2].getScore())) <= players[3].getScore()) {
+        // // player 3 is the dealer
+        // if (!player[3].isBust()) {
+        // while (!player[3].isBust() && !player[3].isBlackjack()
+        // && max(players[0].getScore(),
+        // max(players[1].getScore(), players[2].getScore())) <= players[3].getScore())
+        // {
 
-                players[3].addCard(game.drawCard());
-            }
-        }
+        // players[3].addCard(game.drawCard());
+        // }
+        // }
 
+        // endGame();
+    }
+
+    private static endGame() {
         // Decides whether the game is a tie or not.
         int numBlackJack = 0;
         for (int i = 0; i < 4; i++) {
@@ -80,6 +86,13 @@ public class BlackJack {
                 System.out.println("PUSH!");
             }
         }
-
     }
+
+    // private static void printAllCards() {
+    // // print out the cards
+    // for (int i = 0; i < 52; i++) {
+    // System.out.println(game.cards[i].getRank() + " of " + game.cards[i].getSuit()
+    // + "s");
+    // }
+    // }
 }

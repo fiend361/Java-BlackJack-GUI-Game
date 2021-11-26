@@ -9,6 +9,13 @@ public class Player {
     private boolean isBust = false;
     private boolean isBlackjack = false;
 
+    public Player() {
+        this.name = "";
+        this.score = 0;
+        this.handSize = 0;
+        this.hand = new Card[52];
+    }
+
     public Player(String name) {
         this.name = name;
         this.score = 0;
