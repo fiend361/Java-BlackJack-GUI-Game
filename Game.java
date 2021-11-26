@@ -2,11 +2,12 @@ package blackjack;
 
 import java.util.Random;
 import java.util.Scanner;
+import static java.lang.Math.max;
 
 public class Game {
     public Player[] players = new Player[4];
     public Card[] cards = new Card[52];
-    public int maxScore;
+    public int maxScore = 0;
 
     public void generateCards() {
         for (int suit = 0; suit < 4; suit++) {
@@ -35,8 +36,20 @@ public class Game {
 
     public void setInformation() {
         Scanner scanner = new Scanner(System.in);
-        for (int i = 0; i < 3; i++) {
-            System.out.println("Enter the name of player " + (i + 1) + ": ");
+
+        // Dealer
+        players[0] = new Player("Dealer");
+
+        players[0].addCard(drawCard());
+
+        System.out.println("Dealer has this card:");
+        players[0].printHand();
+        players[0].printScore();
+
+        players[0].addCard(drawCard());
+
+        for (int i = 1; i < 4; i++) {
+            System.out.println("\nEnter the name of player " + i + ": ");
             players[i] = new Player(scanner.nextLine());
 
             players[i].addCard(drawCard());
@@ -46,22 +59,12 @@ public class Game {
             players[i].printHand();
             players[i].printScore();
         }
-
-        // dealer
-        players[3] = new Player("Dealer");
-
-        players[3].addCard(drawCard());
-        players[3].addCard(drawCard());
-
-        System.out.println("Dealer has this cards:");
-        players[3].printHand();
-        players[3].printScore();
     }
 
     public void updateMaxScore() {
-        for (int i = 0; i < players.length; i++) {
-            if (players[i].getScore() > maxScore) {
-                maxScore = players[i].getScore();
+        for (int i = 1; i < 4; i++) {
+            if (!players[i].isBust()) {
+                maxScore = max(maxScore, players[i].getScore());
             }
         }
     }

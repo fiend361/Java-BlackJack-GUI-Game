@@ -16,8 +16,8 @@ public class BlackJack {
         Scanner scanner = new Scanner(System.in);
         String input;
 
-        for (int i = 0; i < 3; i++) {
-            System.out.println("Player number " + Integer.toString(i + 1) + "'s turn. Please enter 'hit' or 'stand'");
+        for (int i = 1; i < 4; i++) {
+            System.out.println("\nPlayer number " + Integer.toString(i) + "'s turn. Please enter 'hit' or 'stand'");
             while (true) {
                 input = scanner.nextLine();
                 if (input.equals("hit")) {
@@ -30,6 +30,8 @@ public class BlackJack {
                     } else if (game.players[i].isBlackjack()) {
                         System.out.println("Blackjack!");
                         break;
+                    } else {
+                        System.out.println("hit or stand?");
                     }
                 } else if (input.equals("stand")) {
                     System.out.println("Stand!");
@@ -40,19 +42,19 @@ public class BlackJack {
             }
         }
 
-        // player 3 is the dealer
-        if (!game.players[3].isBust()) {
-            while (!game.players[3].isBust() && !game.players[3].isBlackjack()
-                    && max(game.players[0].getScore(),
-                            max(game.players[1].getScore(), game.players[2].getScore())) <= game.players[3]
-                                    .getScore()) {
+        game.updateMaxScore();
 
-                game.players[3].addCard(game.drawCard());
-            }
+        // player 3 is the dealer
+        while (!game.players[0].isBust() && !game.players[0].isBlackjack()
+                && game.maxScore >= game.players[0].getScore()) {
+
+            game.players[0].addCard(game.drawCard());
+            game.players[0].printHand();
+            game.players[0].printScore();
+            System.out.println("----------");
         }
 
         endGame();
-        // scanner.close();
     }
 
     private static void endGame() {
@@ -66,7 +68,11 @@ public class BlackJack {
         if (numBlackJack == 1) {
             for (int i = 0; i < 4; i++) {
                 if (game.players[i].isBlackjack()) {
-                    System.out.println("Player " + Integer.toString(i + 1) + " wins!");
+                    if (i == 0) {
+                        System.out.println("Dealer wins!");
+                    } else {
+                        System.out.println("Player " + Integer.toString(i) + " wins!");
+                    }
                 }
             }
         } else if (numBlackJack > 1) {
@@ -75,19 +81,19 @@ public class BlackJack {
             if (game.players[0].getScore() > game.players[1].getScore()
                     && game.players[0].getScore() > game.players[2].getScore()
                     && game.players[0].getScore() > game.players[3].getScore()) {
-                System.out.println("Player 1 wins!");
+                System.out.println("Dealer wins!");
             } else if (game.players[1].getScore() > game.players[0].getScore()
                     && game.players[1].getScore() > game.players[2].getScore()
                     && game.players[1].getScore() > game.players[3].getScore()) {
-                System.out.println("Player 2 wins!");
+                System.out.println("Player 1 wins!");
             } else if (game.players[2].getScore() > game.players[0].getScore()
                     && game.players[2].getScore() > game.players[1].getScore()
                     && game.players[2].getScore() > game.players[3].getScore()) {
-                System.out.println("Player 3 wins!");
+                System.out.println("Player 2 wins!");
             } else if (game.players[3].getScore() > game.players[0].getScore()
                     && game.players[3].getScore() > game.players[1].getScore()
                     && game.players[3].getScore() > game.players[2].getScore()) {
-                System.out.println("Player 4 wins!");
+                System.out.println("Player 3 wins!");
             } else {
                 System.out.println("PUSH!");
             }

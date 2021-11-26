@@ -69,6 +69,7 @@ public class Player {
         score += card.getValue();
         if (score > 21) {
             isBust = true;
+            score = 0;
         }
         if (score == 21) {
             isBlackjack = true;
