@@ -8,8 +8,9 @@ public class BlackJack {
     public static Game game = new Game();
 
     public static void main(String[] args) {
-        System.out.println("Welcome to BlackJack!");
+        System.out.println("Welcome to BlackJack!!!");
         game.generateCards();
+        // printAllCards();
         game.setInformation();
 
         Scanner scanner = new Scanner(System.in);
@@ -21,6 +22,8 @@ public class BlackJack {
                 input = scanner.nextLine();
                 if (input.equals("hit")) {
                     game.players[i].addCard(game.drawCard());
+                    game.players[i].printHand();
+                    game.players[i].printScore();
                     if (game.players[i].isBust()) {
                         System.out.println("Bust!");
                         break;
@@ -91,11 +94,11 @@ public class BlackJack {
         }
     }
 
-    // private static void printAllCards() {
-    // // print out the cards
-    // for (int i = 0; i < 52; i++) {
-    // System.out.println(game.cards[i].getRank() + " of " + game.cards[i].getSuit()
-    // + "s");
-    // }
-    // }
+    private static void printAllCards() {
+        // print out the cards
+        for (int i = 0; i < 52; i++) {
+            System.out.println(game.cards[i].getRank() + " of " + game.cards[i].getSuit()
+                    + "s" + game.cards[i].getValue());
+        }
+    }
 }

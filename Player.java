@@ -73,14 +73,11 @@ public class Player {
         if (score == 21) {
             isBlackjack = true;
         }
-
-        printHand();
-        System.out.println("Score = " + Integer.toBinaryString(score));
     }
 
     public void printHand() {
         for (int i = 0; i < handSize; i++) {
-            System.out.print(">>>>>");
+            System.out.print(">>>>> ");
             if (hand[i].getValue() == 1) {
                 System.out.print("A");
             } else if (hand[i].getValue() == 11) {
@@ -89,6 +86,8 @@ public class Player {
                 System.out.print("Q");
             } else if (hand[i].getValue() == 13) {
                 System.out.print("K");
+            } else {
+                System.out.print(hand[i].getValue());
             }
 
             System.out.print(" of ");
@@ -102,8 +101,12 @@ public class Player {
             } else if (hand[i].getSuit() == 3) {
                 System.out.print("Clubs");
             }
+            System.out.println();
         }
-        System.out.println();
+    }
+
+    public void printScore() {
+        System.out.println("Score = " + Integer.toString(score));
     }
 
 }
