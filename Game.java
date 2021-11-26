@@ -23,7 +23,11 @@ public class Game {
         Random random = new Random();
         int index = random.nextInt(52);
 
-        Card card = new Card(cards[index]);
+        while (cards[index] == null) {
+            index = random.nextInt(52);
+        }
+
+        Card card = cards[index];
         cards[index] = null;
 
         return card;
@@ -38,6 +42,7 @@ public class Game {
             players[i].addCard(drawCard());
             players[i].addCard(drawCard());
         }
+        scanner.close();
     }
 
     public void updateMaxScore() {

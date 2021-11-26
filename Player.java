@@ -19,7 +19,7 @@ public class Player {
     public Player(String name) {
         this.name = name;
         this.score = 0;
-        this.numOfCards = 0;
+        this.handSize = 0;
         this.hand = new Card[52];
     }
 
