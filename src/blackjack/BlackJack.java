@@ -1,17 +1,22 @@
 package blackjack;
 
 import java.util.Scanner;
-import static java.lang.Math.max;
-import blackjack.Game;
 
 public class BlackJack {
     public static Game game = new Game();
+    public static GUI gui;
 
     public static void main(String[] args) {
+        gui = new GUI();
+
         System.out.println("Welcome to BlackJack!!!");
         game.generateCards();
         // printAllCards();
         game.setInformation();
+        gui.updateDealerHand(game.players[0].getCard(1), game.cards);
+
+        gui.runGUI(game.cards, game.players[0].getHand(), game.players[1].getHand(), game.players[2].getHand(),
+                game.players[3].getHand());
 
         Scanner scanner = new Scanner(System.in);
         String input;
@@ -21,9 +26,11 @@ public class BlackJack {
             while (true) {
                 input = scanner.nextLine();
                 if (input.equals("hit")) {
-                    game.players[i].addCard(game.drawCard());
+                    Card card = game.drawCard();
+                    game.players[i].addCard(card);
                     game.players[i].printHand();
                     game.players[i].printScore();
+                    gui.updatePlayerHand(card, i);
                     if (game.players[i].isBust()) {
                         System.out.println("Bust!");
                         break;
@@ -48,7 +55,9 @@ public class BlackJack {
         while (!game.players[0].isBust() && !game.players[0].isBlackjack()
                 && game.maxScore >= game.players[0].getScore()) {
 
-            game.players[0].addCard(game.drawCard());
+            Card card = game.drawCard();
+            game.players[0].addCard(card);
+            gui.updateDealerHand(card, game.cards);
             game.players[0].printHand();
             game.players[0].printScore();
             System.out.println("----------");

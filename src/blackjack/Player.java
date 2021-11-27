@@ -35,6 +35,10 @@ public class Player {
         return hand;
     }
 
+    public Card getCard(int index) {
+        return hand[index];
+    }
+
     public boolean isBust() {
         return isBust;
     }

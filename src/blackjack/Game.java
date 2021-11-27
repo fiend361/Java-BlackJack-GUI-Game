@@ -59,6 +59,7 @@ public class Game {
             players[i].printHand();
             players[i].printScore();
         }
+
     }
 
     public void updateMaxScore() {
