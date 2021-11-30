@@ -2,9 +2,9 @@ package blackjack;
 
 public class Card {
 
-    private int value;
-    private int suit;
-    private int rank;
+    private final int value;
+    private final int suit;
+    private final int rank;
 
     public Card(int value, int suit, int rank) {
         this.value = value;

@@ -3,38 +3,42 @@ package blackjack;
 import java.util.Scanner;
 
 public class BlackJack {
-    public static Game game = new Game();
-    public static GUI gui;
+    private static Game game = new Game();
+    private static GUI gui;
 
     public static void main(String[] args) {
         gui = new GUI();
 
         System.out.println("Welcome to BlackJack!!!");
         game.generateCards();
-        // printAllCards();
         game.setInformation();
-        gui.updateDealerHand(game.players[0].getCard(1), game.cards);
 
-        gui.runGUI(game.cards, game.players[0].getHand(), game.players[1].getHand(), game.players[2].getHand(),
-                game.players[3].getHand());
+        gui.runGUI(game.getCards(), game.getPlayers()[0].getHand(), game.getPlayers()[1].getHand(),
+                game.getPlayers()[2].getHand(), game.getPlayers()[3].getHand());
+
+        // gui.updateDealerHand(game.getPlayers()[3].getCard(1), game.getCards());
 
         Scanner scanner = new Scanner(System.in);
         String input;
 
-        for (int i = 1; i < 4; i++) {
-            System.out.println("\nPlayer number " + Integer.toString(i) + "'s turn. Please enter 'hit' or 'stand'");
+        for (int i = 0; i < 3; i++) {
+            System.out.println("\nPlayer number " + Integer.toString(i + 1) + " (" + game.getPlayers()[i].getName()
+                    + ")'s turn. Please enter 'hit' or 'stand'");
             while (true) {
                 input = scanner.nextLine();
                 if (input.equals("hit")) {
                     Card card = game.drawCard();
-                    game.players[i].addCard(card);
-                    game.players[i].printHand();
-                    game.players[i].printScore();
+                    game.getPlayers()[i].addCard(card);
+                    game.getPlayers()[i].printHand();
+                    game.getPlayers()[i].printScore();
+                    game.updateMaxScore();
+
                     gui.updatePlayerHand(card, i);
-                    if (game.players[i].isBust()) {
+
+                    if (game.getPlayers()[i].isBust()) {
                         System.out.println("Bust!");
                         break;
-                    } else if (game.players[i].isBlackjack()) {
+                    } else if (game.getPlayers()[i].isBlackjack()) {
                         System.out.println("Blackjack!");
                         break;
                     } else {
@@ -49,17 +53,15 @@ public class BlackJack {
             }
         }
 
-        game.updateMaxScore();
-
         // player 3 is the dealer
-        while (!game.players[0].isBust() && !game.players[0].isBlackjack()
-                && game.maxScore >= game.players[0].getScore()) {
+        while (!game.getPlayers()[3].isBust() && !game.getPlayers()[3].isBlackjack()
+                && game.getPlayers()[3].getScore() <= game.getMaxScore()) {
 
             Card card = game.drawCard();
-            game.players[0].addCard(card);
-            gui.updateDealerHand(card, game.cards);
-            game.players[0].printHand();
-            game.players[0].printScore();
+            game.getPlayers()[3].addCard(card);
+            gui.updateDealerHand(card, game.getCards());
+            game.getPlayers()[3].printHand();
+            game.getPlayers()[3].printScore();
             System.out.println("----------");
         }
 
@@ -68,52 +70,24 @@ public class BlackJack {
 
     private static void endGame() {
         // Decides whether the game is a tie or not.
-        int numBlackJack = 0;
-        for (int i = 0; i < 4; i++) {
-            if (game.players[i].isBlackjack()) {
-                numBlackJack++;
-            }
-        }
-        if (numBlackJack == 1) {
-            for (int i = 0; i < 4; i++) {
-                if (game.players[i].isBlackjack()) {
-                    if (i == 0) {
-                        System.out.println("Dealer wins!");
-                    } else {
-                        System.out.println("Player " + Integer.toString(i) + " wins!");
-                    }
-                }
-            }
-        } else if (numBlackJack > 1) {
-            System.out.println("PUSH!");
+        if (game.getPlayers()[0].getScore() > game.getPlayers()[1].getScore()
+                && game.getPlayers()[0].getScore() > game.getPlayers()[2].getScore()
+                && game.getPlayers()[0].getScore() > game.getPlayers()[3].getScore()) {
+            System.out.println("Player 1 wins!");
+        } else if (game.getPlayers()[1].getScore() > game.getPlayers()[0].getScore()
+                && game.getPlayers()[1].getScore() > game.getPlayers()[2].getScore()
+                && game.getPlayers()[1].getScore() > game.getPlayers()[3].getScore()) {
+            System.out.println("Player 2 wins!");
+        } else if (game.getPlayers()[2].getScore() > game.getPlayers()[0].getScore()
+                && game.getPlayers()[2].getScore() > game.getPlayers()[1].getScore()
+                && game.getPlayers()[2].getScore() > game.getPlayers()[3].getScore()) {
+            System.out.println("Player 3 wins!");
+        } else if (game.getPlayers()[3].getScore() > game.getPlayers()[0].getScore()
+                && game.getPlayers()[3].getScore() > game.getPlayers()[1].getScore()
+                && game.getPlayers()[3].getScore() > game.getPlayers()[2].getScore()) {
+            System.out.println("Dealer wins!");
         } else {
-            if (game.players[0].getScore() > game.players[1].getScore()
-                    && game.players[0].getScore() > game.players[2].getScore()
-                    && game.players[0].getScore() > game.players[3].getScore()) {
-                System.out.println("Dealer wins!");
-            } else if (game.players[1].getScore() > game.players[0].getScore()
-                    && game.players[1].getScore() > game.players[2].getScore()
-                    && game.players[1].getScore() > game.players[3].getScore()) {
-                System.out.println("Player 1 wins!");
-            } else if (game.players[2].getScore() > game.players[0].getScore()
-                    && game.players[2].getScore() > game.players[1].getScore()
-                    && game.players[2].getScore() > game.players[3].getScore()) {
-                System.out.println("Player 2 wins!");
-            } else if (game.players[3].getScore() > game.players[0].getScore()
-                    && game.players[3].getScore() > game.players[1].getScore()
-                    && game.players[3].getScore() > game.players[2].getScore()) {
-                System.out.println("Player 3 wins!");
-            } else {
-                System.out.println("PUSH!");
-            }
-        }
-    }
-
-    private static void printAllCards() {
-        // print out the cards
-        for (int i = 0; i < 52; i++) {
-            System.out.println(game.cards[i].getRank() + " of " + game.cards[i].getSuit()
-                    + "s" + game.cards[i].getValue());
+            System.out.println("PUSH!");
         }
     }
 }

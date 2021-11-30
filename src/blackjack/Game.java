@@ -5,9 +5,22 @@ import java.util.Scanner;
 import static java.lang.Math.max;
 
 public class Game {
-    public Player[] players = new Player[4];
-    public Card[] cards = new Card[52];
-    public int maxScore = 0;
+    private Player[] players = new Player[4];
+    private Card[] cards = new Card[52];
+    private int maxScore = 0;
+
+    // getters for the class attributes
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public Card[] getCards() {
+        return cards;
+    }
+
+    public int getMaxScore() {
+        return maxScore;
+    }
 
     public void generateCards() {
         for (int suit = 0; suit < 4; suit++) {
@@ -38,24 +51,23 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
 
         // Dealer
-        players[0] = new Player("Dealer");
+        players[3] = new Player("Dealer");
 
-        players[0].addCard(drawCard());
+        players[3].addCard(drawCard());
 
-        System.out.println("Dealer has this card:");
-        players[0].printHand();
-        players[0].printScore();
+        players[3].printHand();
+        players[3].printScore();
 
-        players[0].addCard(drawCard());
+        players[3].addCard(drawCard());
 
-        for (int i = 1; i < 4; i++) {
-            System.out.println("\nEnter the name of player " + i + ": ");
+        for (int i = 0; i < 3; i++) {
+            System.out.println("\nEnter the name of player " + Integer.toString(i + 1) + ": ");
             players[i] = new Player(scanner.nextLine());
 
             players[i].addCard(drawCard());
             players[i].addCard(drawCard());
 
-            System.out.println("You have these cards:");
+            // System.out.println("You have these cards:");
             players[i].printHand();
             players[i].printScore();
         }
@@ -63,10 +75,11 @@ public class Game {
     }
 
     public void updateMaxScore() {
-        for (int i = 1; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             if (!players[i].isBust()) {
                 maxScore = max(maxScore, players[i].getScore());
             }
         }
     }
+
 }

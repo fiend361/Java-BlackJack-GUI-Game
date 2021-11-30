@@ -13,14 +13,12 @@ public class Player {
         this.name = "";
         this.score = 0;
         this.handSize = 0;
-        this.hand = new Card[52];
     }
 
     public Player(String name) {
         this.name = name;
         this.score = 0;
         this.handSize = 0;
-        this.hand = new Card[52];
     }
 
     public String getName() {
@@ -51,14 +49,6 @@ public class Player {
         this.name = name;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public void setHand(Card[] hand) {
-        this.hand = hand;
-    }
-
     public void setBust(boolean isBust) {
         this.isBust = isBust;
     }
@@ -81,6 +71,7 @@ public class Player {
     }
 
     public void printHand() {
+        System.out.println(this.name + "'s hand:");
         for (int i = 0; i < handSize; i++) {
             System.out.print(">>>>> ");
             if (hand[i].getValue() == 1) {
@@ -98,20 +89,20 @@ public class Player {
             System.out.print(" of ");
 
             if (hand[i].getSuit() == 0) {
-                System.out.print("Spades");
-            } else if (hand[i].getSuit() == 1) {
-                System.out.print("Hearts");
-            } else if (hand[i].getSuit() == 2) {
-                System.out.print("Diamonds");
-            } else if (hand[i].getSuit() == 3) {
                 System.out.print("Clubs");
+            } else if (hand[i].getSuit() == 1) {
+                System.out.print("Diamonds");
+            } else if (hand[i].getSuit() == 2) {
+                System.out.print("Hearts");
+            } else if (hand[i].getSuit() == 3) {
+                System.out.print("Spades");
             }
             System.out.println();
         }
     }
 
     public void printScore() {
-        System.out.println("Score = " + Integer.toString(score));
+        System.out.println(this.name + "'s score = " + Integer.toString(score));
     }
 
 }
